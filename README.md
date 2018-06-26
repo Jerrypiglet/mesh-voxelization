@@ -64,13 +64,11 @@ used (triangular) mesh format: [OFF](http://segeval.cs.princeton.edu/public/off_
 - Ignore system Boost.cmake: ``cmake -DBoost_NO_BOOST_CMAKE=ON ..``
 - Use gcc 5.2
 - Use Eigen>=3.3.4: http://eigen.tuxfamily.org/index.php?title=Main_Page
-- Change ../cmake/FindEigen3.cmake L14 to: /home/zhurui/packages/eigen-eigen-5a0156e40feb
+- Change **../cmake/FindEigen3.cmake** L14 to: ``/home/zhurui/packages/eigen-eigen-5a0156e40feb``
 
-Also try:
+Also try editing **CMAKE_CXX_FLAGS**:
 
--std=c++11 -O2 -fPIC -Wno-narrowing -Wno-invalid-partial-specialization
-
-http://bitbucket.org/eigen/eigen/get/3.3.4.tar.bz2
+``-std=c++11 -O2 -fPIC -Wno-narrowing -Wno-invalid-partial-specialization``
 
 ### Original
 
