@@ -60,6 +60,19 @@ used (triangular) mesh format: [OFF](http://segeval.cs.princeton.edu/public/off_
 
 ## Installation
 
+### On Baidu machines:
+cmake -DBoost_NO_BOOST_CMAKE=ON ..
+
+gcc 5.2
+
+Also try:
+
+-std=c++11 -O2 -fPIC -Wno-narrowing -Wno-invalid-partial-specialization
+
+http://bitbucket.org/eigen/eigen/get/3.3.4.tar.bz2
+
+### Original
+
 Requirements for C++ tool:
 
 * CMake;
