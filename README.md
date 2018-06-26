@@ -61,9 +61,10 @@ used (triangular) mesh format: [OFF](http://segeval.cs.princeton.edu/public/off_
 ## Installation
 
 ### ``On Baidu machines``
-cmake -DBoost_NO_BOOST_CMAKE=ON ..
-
-gcc 5.2
+- Ignore system Boost.cmake: ``cmake -DBoost_NO_BOOST_CMAKE=ON ..``
+- Use gcc 5.2
+- Use Eigen>=3.3.4: http://eigen.tuxfamily.org/index.php?title=Main_Page
+- Change ../cmake/FindEigen3.cmake L14 to: /home/zhurui/packages/eigen-eigen-5a0156e40feb
 
 Also try:
 
