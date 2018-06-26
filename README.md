@@ -60,7 +60,7 @@ used (triangular) mesh format: [OFF](http://segeval.cs.princeton.edu/public/off_
 
 ## Installation
 
-### On Baidu machines:
+### ``On Baidu machines``
 cmake -DBoost_NO_BOOST_CMAKE=ON ..
 
 gcc 5.2
