@@ -59,8 +59,10 @@ format are provided; as well as C++ and Python utilities for the
 used (triangular) mesh format: [OFF](http://segeval.cs.princeton.edu/public/off_format.html).
 
 ## Installation
+## **On bb10**
+- ``source activate tmp``
 
-### ``On Baidu machines``
+### **On Baidu machines**
 - Ignore system Boost.cmake: ``cmake -DBoost_NO_BOOST_CMAKE=ON ..``
 - Use gcc 5.2
 - Use Eigen>=3.3.4: http://eigen.tuxfamily.org/index.php?title=Main_Page
