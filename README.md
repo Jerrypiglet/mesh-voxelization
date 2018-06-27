@@ -59,7 +59,7 @@ format are provided; as well as C++ and Python utilities for the
 used (triangular) mesh format: [OFF](http://segeval.cs.princeton.edu/public/off_format.html).
 
 ## Installation
-## **On bb10**
+### **On bb10**
 - ``source activate tmp``
 
 ### **On Baidu machines**
