@@ -1,7 +1,9 @@
 import os
+import sys
 import math
 import argparse
 import numpy as np
+from file_utils import *
 
 def write_off(file, vertices, faces):
     """
@@ -99,7 +101,13 @@ def read_off(file):
 
         faces = []
         for i in range(num_faces):
-            face = lines[start_index + num_vertices + i].split(' ')
+            # print len(lines), start_index, num_vertices, num_faces, i
+            try:
+                face = lines[start_index + num_vertices + i].split(' ')
+            except IndexError:
+                print(toRed('Error in reading faces. Aborted.'))
+                return None, None
+            # print face
             face = [index.strip() for index in face if index != '']
 
             # check to be sure
@@ -198,7 +206,8 @@ class Mesh:
         """
 
         vertices, faces = read_off(filepath)
-
+        if vertices==None or faces==None:
+            return None
         real_faces = []
         for face in faces:
             assert len(face) == 4
@@ -227,6 +236,8 @@ if __name__ == '__main__':
     parser.add_argument('--height', type=int, default=32, help='Height to scale to.')
     parser.add_argument('--width', type=int, default=32, help='Width to scale to.')
     parser.add_argument('--depth', type=int, default=32, help='Depth to scale to.')
+    bin_path = '/home/rz1/Documents/new_proj/mesh-voxelization/bin/'
+    sys.path.append(bin_path)
 
     args = parser.parse_args()
     if not os.path.exists(args.input):
@@ -241,10 +252,23 @@ if __name__ == '__main__':
 
     n = 0
     scale = max(args.height, args.width, args.depth)
+    for filename in os.listdir(args.input):
+        filepath = os.path.join(args.input, filename)
+        if '.obj' in filepath and not(os.path.isfile(filepath)):
+            print sys.path
+            print(toRed('%s is an .obj mesh. Converting to .off format...'%filepath))
+            os.system(bin_path + 'meshconv -c off %s'%filepath)
 
     for filename in os.listdir(args.input):
         filepath = os.path.join(args.input, filename)
-        mesh = Mesh.from_off(filepath)
+        if '.off' in filepath:
+            print(toBlue('Reading .off file: ' + filepath))
+            mesh = Mesh.from_off(filepath)
+            if mesh==None:
+                print(toRed('Aborting file:' + filepath))
+                continue
+        else:
+            continue
 
         # Get extents of model.
         min, max = mesh.extents()
