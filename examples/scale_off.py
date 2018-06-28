@@ -232,7 +232,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Convert OFF to OBJ.')
     parser.add_argument('input', type=str, help='The input directory containing OFF files.')
     parser.add_argument('output', type=str, help='The output directory for OBJ files.')
-    parser.add_argument('--padding', type=float, default=0.1, help='Padding on each side.')
+    parser.add_argument('--padding', type=float, default=0., help='Padding on each side.')
     parser.add_argument('--height', type=int, default=32, help='Height to scale to.')
     parser.add_argument('--width', type=int, default=32, help='Width to scale to.')
     parser.add_argument('--depth', type=int, default=32, help='Depth to scale to.')
@@ -254,10 +254,10 @@ if __name__ == '__main__':
     scale = max(args.height, args.width, args.depth)
     for filename in os.listdir(args.input):
         filepath = os.path.join(args.input, filename)
-        if '.obj' in filepath and not(os.path.isfile(filepath)):
+        if '.obj' in filepath and not(os.path.isfile(filepath.replace('.obj', '.off'))):
             print sys.path
-            print(toRed('%s is an .obj mesh. Converting to .off format...'%filepath))
-            os.system(bin_path + 'meshconv -c off %s'%filepath)
+            print(toGreen('%s is an .obj mesh. Converting to .off format...'%filepath))
+            os.system(bin_path + 'meshconv -c off -tri %s'%filepath)
 
     for filename in os.listdir(args.input):
         filepath = os.path.join(args.input, filename)
@@ -299,7 +299,7 @@ if __name__ == '__main__':
             1 / (sizes[1] + 2 * args.padding * sizes[1]),
             1 / (sizes[2] + 2 * args.padding * sizes[2])
         )
-
+        print 'centers, sizes, translation, scales: ', centers, sizes, translation, scales
         mesh.translate(translation)
         mesh.scale(scales)
 
@@ -307,7 +307,7 @@ if __name__ == '__main__':
         mesh.scale((scale, scale, scale))
 
         min, max = mesh.extents()
-        print('%s extents after %f - %f, %f - %f, %f - %f.' % (os.path.basename(filepath), min[0], max[0], min[1], max[1], min[2], max[2]))
+        print(toCyan('%s extents after %f-%f, %f-%f, %f-%f.' % (os.path.basename(filepath), min[0], max[0], min[1], max[1], min[2], max[2])))
 
         mesh.to_off(os.path.join(args.output, '%d.off' % n))
         n += 1

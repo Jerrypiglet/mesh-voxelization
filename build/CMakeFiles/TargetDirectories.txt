@@ -1,4 +1,0 @@
-/home/rz1/Documents/new_proj/mesh-voxelization/build/CMakeFiles/edit_cache.dir
-/home/rz1/Documents/new_proj/mesh-voxelization/build/CMakeFiles/rebuild_cache.dir
-/home/rz1/Documents/new_proj/mesh-voxelization/build/CMakeFiles/read_hdf5.dir
-/home/rz1/Documents/new_proj/mesh-voxelization/build/CMakeFiles/voxelize.dir

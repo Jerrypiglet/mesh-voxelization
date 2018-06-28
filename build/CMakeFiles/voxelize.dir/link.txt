@@ -1,1 +1,0 @@
-/usr/bin/c++   --std=gnu++11  -O3 -fopenmp   CMakeFiles/voxelize.dir/main.cpp.o  -o ../bin/voxelize -rdynamic -lboost_system -lboost_filesystem -lboost_program_options /home/rz1/anaconda2/lib/libhdf5_cpp.so /home/rz1/anaconda2/lib/libhdf5.so -lrt -lpthread /home/rz1/anaconda2/lib/libz.so -ldl -lm -Wl,-rpath,/home/rz1/anaconda2/lib 
