@@ -1,4 +1,5 @@
 import os
+import sys
 import h5py
 import argparse
 import numpy as np
@@ -79,8 +80,9 @@ except ImportError:
     print('If you use skimage, make sure to call voxelize with -mode=corner.')
 
     try:
+        sys.path[0] = '/home/rz1/.local/lib/python2.7/site-packages/'
         import mcubes
-
+        print '==== mcubes imported.'
         def marching_cubes(tensor):
             """
             Perform marching cubes using mcubes.
