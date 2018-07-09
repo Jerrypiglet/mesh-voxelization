@@ -76,7 +76,7 @@ try:
 
     print('Using skimage\'s marching cubes implementation.')
 except ImportError:
-    print('Could not find skimage, import skimage.measure failed.')
+    print('==== Could not find skimage, import skimage.measure failed.')
     print('If you use skimage, make sure to call voxelize with -mode=corner.')
 
     try:

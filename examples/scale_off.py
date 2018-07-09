@@ -232,7 +232,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Convert OFF to OBJ.')
     parser.add_argument('input', type=str, help='The input directory containing OFF files.')
     parser.add_argument('output', type=str, help='The output directory for OBJ files.')
-    parser.add_argument('--padding', type=float, default=0., help='Padding on each side.')
+    parser.add_argument('--padding', type=float, default=0.1, help='Padding on each side.')
     parser.add_argument('--height', type=int, default=32, help='Height to scale to.')
     parser.add_argument('--width', type=int, default=32, help='Width to scale to.')
     parser.add_argument('--depth', type=int, default=32, help='Depth to scale to.')
