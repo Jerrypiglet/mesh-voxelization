@@ -1,54 +1,46 @@
+
+# coding: utf-8
+
+# In[1]:
+
+
 import os
 import h5py
 import argparse
 import numpy as np
-from skimage import morphology
 
-def write_hdf5(file, tensor, key = 'tensor'):
-    """
-    Write a simple tensor, i.e. numpy array ,to HDF5.
+from hdf5_utils import *
 
-    :param file: path to file to write
-    :type file: str
-    :param tensor: tensor to write
-    :type tensor: numpy.ndarray
-    :param key: key to use for tensor
-    :type key: str
-    """
+cars_hdf5_name = '../models/cars/2_watertight/sdf.h5'
 
-    assert type(tensor) == np.ndarray, 'expects numpy.ndarray'
+h5 = read_hdf5(cars_hdf5_name)
+print h5.shape
 
-    h5f = h5py.File(file, 'w')
+S = h5.reshape((h5.shape[0], -1))
+print S.shape
 
-    chunks = list(tensor.shape)
-    if len(chunks) > 2:
-        chunks[2] = 1
-        if len(chunks) > 3:
-            chunks[3] = 1
-            if len(chunks) > 4:
-                chunks[4] = 1
 
-    h5f.create_dataset(key, data = tensor, chunks = tuple(chunks), compression = 'gzip')
-    h5f.close()
+# In[8]:
 
-def read_hdf5(file, key = 'tensor'):
-    """
-    Read a tensor, i.e. numpy array, from HDF5.
 
-    :param file: path to file to read
-    :type file: str
-    :param key: key to read
-    :type key: str
-    :return: tensor
-    :rtype: numpy.ndarray
-    """
+S_mean = np.mean(S, axis=0)
+S_white = S - S_mean
+t = S.shape[0] # number of samples, 87
+n = S.shape[1] # dim of feature, 32*32*32
 
-    assert os.path.exists(file), 'file %s not found' % file
+cov = 1./(t-1) * np.dot(S_white.T , S_white)
+print cov.shape
 
-    h5f = h5py.File(file, 'r')
 
-    assert key in h5f.keys(), 'key %s not found in file %s' % (key, file)
-    tensor = h5f[key][()]
-    h5f.close()
+# In[ ]:
 
-    return tensor
+
+from numpy import linalg as LA
+w, v = LA.eig(cov)
+
+
+# In[ ]:
+
+
+print w.shape, v.shape
+
