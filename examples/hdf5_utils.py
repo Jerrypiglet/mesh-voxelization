@@ -2,7 +2,6 @@ import os
 import h5py
 import argparse
 import numpy as np
-from skimage import morphology
 
 def write_hdf5(file, tensor, key = 'tensor'):
     """
