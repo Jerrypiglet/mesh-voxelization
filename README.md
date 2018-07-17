@@ -23,6 +23,12 @@ If you use this tool, please cite the following work:
     }
 
 ![Example of voxelizations.](screenshot.jpg?raw=true "Example of voxelizations.")
+## Conversion meshed to PCA model with TDSF representation
+Adapted from https://github.com/davidstutz/mesh-voxelization
+
+Hosted at https://github.com/Jerrypiglet/mesh-voxelization
+
+See `./examples.read_cars_hdf5.ipynb` for a demo of obtaining from training shapes (74/79 shapes) the PCA eigen vectors matrix which mapps between TSDF space and PCA space, and embedding & recovering testing shapes.
 
 ## Overview
 
