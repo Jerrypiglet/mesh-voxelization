@@ -3,6 +3,10 @@ import sys
 import h5py
 import argparse
 import numpy as np
+import car_models
+
+from scale_off_no_align import Mesh
+from scipy.io import loadmat
 
 skimage = None
 mcubes = None
@@ -123,6 +127,11 @@ if __name__ == '__main__':
         print('Output directory exists; potentially overwriting contents.')
 
     tensor = read_hdf5(args.input)
+    car_scales = loadmat('../../examples/car_scales.mat')
+    scales = car_scales['scales'].tolist()
+    scales = (1./scales[0][0], 1./scales[0][1], 1./scales[0][2])
+    scale = float(car_scales['scale'][0][0])
+
     if len(tensor.shape) < 4:
         tensor = np.expand_dims(tensor, axis=0)
 
@@ -132,5 +141,15 @@ if __name__ == '__main__':
         off_file = '%s/%d.off' % (args.output, n)
         write_off(off_file, vertices, faces)
         print('Wrote %s.' % off_file)
+
+        ## read original .off files for restoring
+        mesh = Mesh.from_off(off_file)
+        mesh.scale((1./scale, 1./scale, 1./scale))
+        mesh.translate((-0.5, -0.5, -0.5))
+        mesh.scale(scales)
+
+        # mesh.to_off(os.path.join(args.output+'_ori_scale', '%s.off' % car_models.models[n].name))
+        mesh.to_off(off_file.replace('%d.off'%n, '%s_ori_scale.off'%car_models.models[n].name))
+
 
     print('Use MeshLab to visualize the created OFF files.')
