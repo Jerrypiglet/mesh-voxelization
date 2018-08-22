@@ -127,7 +127,7 @@ if __name__ == '__main__':
         print('Output directory exists; potentially overwriting contents.')
 
     tensor = read_hdf5(args.input)
-    car_scales = loadmat('../../examples/car_scales.mat')
+    car_scales = loadmat('car_scales.mat')
     scales = car_scales['scales'].tolist()
     scales = (1./scales[0][0], 1./scales[0][1], 1./scales[0][2])
     scale = float(car_scales['scale'][0][0])
