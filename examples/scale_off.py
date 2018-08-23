@@ -266,7 +266,7 @@ if __name__ == '__main__':
 
     # for filename in os.listdir(args.input):
     for model in car_models.models:
-        filename = model.name + '_ori_scale.off'
+        filename = model.name + '.off'
         filepath = os.path.join(args.input, filename)
         if '.off' in filepath:
             print(toBlue('Reading .off file: ' + filepath))

@@ -6,6 +6,7 @@ import numpy as np
 import car_models
 
 from scale_off_no_align import Mesh
+import scipy.io
 from scipy.io import loadmat
 
 skimage = None
@@ -127,10 +128,10 @@ if __name__ == '__main__':
         print('Output directory exists; potentially overwriting contents.')
 
     tensor = read_hdf5(args.input)
-    car_scales = loadmat('car_scales.mat')
-    scales = car_scales['scales'].tolist()
-    scales = (1./scales[0][0], 1./scales[0][1], 1./scales[0][2])
-    scale = float(car_scales['scale'][0][0])
+    # car_scales = loadmat('car_scales.mat')
+    # scales = car_scales['scales'].tolist()
+    # scales = (1./scales[0][0], 1./scales[0][1], 1./scales[0][2])
+    # scale = float(car_scales['scale'][0][0])
 
     if len(tensor.shape) < 4:
         tensor = np.expand_dims(tensor, axis=0)
@@ -144,9 +145,39 @@ if __name__ == '__main__':
 
         ## read original .off files for restoring
         mesh = Mesh.from_off(off_file)
+        s_t = scipy.io.loadmat(off_file.replace('mc', 's_t').replace('.off', '.mat'))
+
+        sizes_ori = (s_t['sizes'][0][0], s_t['sizes'][0][1], s_t['sizes'][0][2])
+        scale = s_t['scale'][0][0]
+        print scale
+
         mesh.scale((1./scale, 1./scale, 1./scale))
         mesh.translate((-0.5, -0.5, -0.5))
-        mesh.scale(scales)
+
+        min, max = mesh.extents()
+        total_min = np.min(np.array(min))
+        total_max = np.max(np.array(max))
+
+        # Set the center (although this should usually be the origin already).
+        centers = (
+            (min[0] + max[0]) / 2,
+            (min[1] + max[1]) / 2,
+            (min[2] + max[2]) / 2
+        )
+        # Scales all dimensions equally.
+        sizes = (
+            total_max - total_min,
+            total_max - total_min,
+            total_max - total_min
+        )
+        translation = (
+            -centers[0],
+            -centers[1],
+            -centers[2]
+        )
+        mesh.translate(translation)
+        mesh.scale((sizes_ori[0]/sizes[0], sizes_ori[1]/sizes[1], sizes_ori[2]/sizes[2]))
+        # mesh.scale(scales)
 
         # mesh.to_off(os.path.join(args.output+'_ori_scale', '%s.off' % car_models.models[n].name))
         mesh.to_off(off_file.replace('%d.off'%n, '%s_ori_scale.off'%car_models.models[n].name))
